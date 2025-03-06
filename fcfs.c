@@ -27,10 +27,11 @@ void fcfs(Process processes[], int n) {
         time = completion_time[i];
     }
 
-    // Print results
-    printf("\nPID  Arrival  Burst  Completion  Turnaround  Waiting\n");
+    // Print results with aligned columns
+    printf("\nFirst-Come, First-Served (FCFS) Scheduling:\n");
+    printf("%-5s %-8s %-6s %-11s %-10s %-7s\n", "PID", "Arrival", "Burst", "Completion", "Turnaround", "Waiting");
     for (int i = 0; i < n; i++) {
-        printf("%d    %d       %d      %d          %d          %d\n", 
+        printf("%-5d %-8d %-6d %-11d %-10d %-7d\n", 
                processes[i].pid, 
                processes[i].arrival_time,
                processes[i].burst_time,
@@ -38,14 +39,4 @@ void fcfs(Process processes[], int n) {
                turnaround_time[i],
                waiting_time[i]);
     }
-}
-
-int main() {
-    Process processes[MAX_PROCESSES];
-    int count = 0;
-
-    read_processes(processes, &count);  // Read from file
-    fcfs(processes, count);  // Run FCFS scheduling
-
-    return 0;
 }

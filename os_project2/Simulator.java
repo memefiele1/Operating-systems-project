@@ -1,51 +1,74 @@
-
-import java.io.*;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.concurrent.Semaphore;
 
 public class Simulator {
+
+    static LinkedList<ProcessThread> buffer = new LinkedList<>();
+    static final int BUFFER_SIZE = 3;
+
+    static Semaphore mutex = new Semaphore(1);      
+    static Semaphore empty = new Semaphore(BUFFER_SIZE); 
+    static Semaphore full = new Semaphore(0);       
+
     public static void main(String[] args) {
-        List<ProcessThread> processThreads = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("processes.txt"))) {
-            String line;
-            boolean firstLine = true; // Flag to skip the header
+        Thread producer = new Thread(() -> {
+            try {
+                int[][] processList = {
+                    {1, 4},
+                    {2, 3},
+                    {3, 2},
+                    {4, 1}
+                };
 
-            while ((line = br.readLine()) != null) {
-                if (firstLine) {
-                    firstLine = false; // Skip header line
-                    continue;
+                for (int[] p : processList) {
+                    ProcessThread pt = new ProcessThread(p[0], p[1]);
+
+                    System.out.println("[Producer] Waiting for buffer space...");
+                    empty.acquire(); 
+
+                    System.out.println("[Producer] Waiting for mutex to add Process " + p[0]);
+                    mutex.acquire(); 
+
+                    buffer.add(pt);
+                    System.out.println("[Producer] Added Process " + p[0]);
+
+                    mutex.release(); 
+                    full.release();  
+
+                    Thread.sleep(500); 
                 }
 
-                if (line.trim().isEmpty()) continue;  // Skip empty lines
-
-                String[] parts = line.trim().split("\\s+"); // Split line by spaces
-
-                // Parse PID and burst time
-                int pid = Integer.parseInt(parts[0]);
-                int arrivalTime = Integer.parseInt(parts[1]);
-                int burstTime = Integer.parseInt(parts[2]);
-
-                // Create a new thread for the process
-                processThreads.add(new ProcessThread(pid, burstTime));
-            }
-        } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
-        // Start all threads
-        for (ProcessThread pt : processThreads) {
-            pt.start();
-        }
-
-        // Wait for all threads to complete
-        for (ProcessThread pt : processThreads) {
-            try {
-                pt.join();
             } catch (InterruptedException e) {
-                System.out.println("Join interrupted.");
+                e.printStackTrace();
             }
-        }
+        });
 
-        System.out.println("✅ All processes completed.");
+        Thread consumer = new Thread(() -> {
+            try {
+                while (true) {
+                    System.out.println("[Consumer] Waiting for available item...");
+                    full.acquire();  
+
+                    System.out.println("[Consumer] Waiting for mutex to retrieve process");
+                    mutex.acquire(); 
+
+                    ProcessThread pt = buffer.removeFirst();
+                    System.out.println("[Consumer] Retrieved Process " + pt.getPid());
+
+                    mutex.release(); 
+                    empty.release(); 
+
+                    pt.start();      
+                    pt.join();       
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        producer.start();
+        consumer.start();
     }
 }
+

@@ -12,12 +12,12 @@ public class ProcessThread extends Thread {
     }
 
     public void run() {
-        System.out.println("Process " + pid + " started.");
+        System.out.println("[Process " + pid + "] started.");
         try {
             Thread.sleep(burstTime * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Process " + pid + " finished.");
+        System.out.println("[Process " + pid + "] finished.");
     }
 }

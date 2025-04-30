@@ -1,38 +1,40 @@
-# Operating Systems Project - Spring 2025
+# Operating Systems Projects – Spring 2025
 
 ## 👥 Team Members
-Miracle Emefiele and Laura Zapata
+Miracle Emefiele  
+Laura Zapata  
 
 ---
 
-# 📄 Project 1: Process Scheduling Simulation
+## 📄 Project 1: Process Scheduling Simulation
 
-### Overview
-This project simulates how an Operating System schedules processes using different CPU scheduling algorithms.  
-We implemented two algorithms:
-- **First-Come, First-Served (FCFS)**
-- **Round Robin (RR)**
+### 📋 Overview
+This project simulates how an Operating System schedules processes using different CPU scheduling algorithms.
 
-Each process was described by:
+**Algorithms Implemented:**
+- First-Come, First-Served (FCFS)
+- Round Robin (RR)
+
+**Process Format Includes:**
 - Process ID (PID)
 - Arrival Time
 - Burst Time
 - Priority
 
-The simulation:
-- Displays the Gantt Chart showing execution order.
-- Calculates **Waiting Time (WT)** and **Turnaround Time (TAT)** for each process.
-- Computes **average WT** and **average TAT**.
+**The Simulation:**
+- Displays the Gantt Chart showing execution order  
+- Calculates Waiting Time (WT) and Turnaround Time (TAT)  
+- Computes average WT and TAT
 
 ---
 
-### 🗂️ Files for Project 1
-- `main.c`: Reads `processes.txt`, schedules processes using FCFS and RR.
-- `fcfs.c`: Implementation of First-Come, First-Served scheduling.
-- `rr.c`: Implementation of Round Robin scheduling.
-- `processes.txt`: Input file listing all processes.
-- `processes.h`: Shared structure and function declarations.
-- `report_project1.pdf`: Detailed project report.
+### 🗂️ Files for Project 1 (C)
+- `main.c`: Reads `processes.txt`, schedules processes using FCFS and RR  
+- `fcfs.c`: Implementation of FCFS  
+- `rr.c`: Implementation of Round Robin  
+- `processes.txt`: Input file listing all processes  
+- `processes.h`: Shared structure and function declarations  
+- `report_project1.pdf`: Final report  
 
 ---
 
@@ -44,61 +46,57 @@ gcc main.c fcfs.c rr.c processes.c -o scheduler
 
 ---
 
-# Project 2: Thread-Based Process Simulation and Synchronization
+## 🧵 Project 2: Thread-Based Process Simulation and Synchronization
 
 ### 📋 Overview
-This project simulates real-time process execution using threads and solves the classic **Producer-Consumer** synchronization problem using semaphores and mutex locks.
+This project simulates real-time process execution using threads and solves the **Producer-Consumer synchronization problem** using **Java threads, semaphores, and synchronized buffer access**.
 
-Each process becomes a **thread**, and we simulate CPU burst times using `sleep()`.
+Each process becomes a thread, and CPU burst times are simulated using `Thread.sleep()`.
 
-Synchronization ensures:
-- Producers add processes into a bounded buffer.
-- Consumers remove and execute processes while preventing race conditions.
-
----
-
-### 🗂️ Files for Project 2
-- `main.c`: Starts producer and consumer threads.
-- `producer_consumer.c`: Handles producer and consumer logic, synchronization.
-- `producer_consumer.h`: Shared data structures and function declarations.
-- `processes.txt`: Input file (can reuse from Project 1).
-- `Makefile`: (Optional) to compile using `make`.
-- `report_project2.docx`: Final report for Project 2.
+**Producer-Consumer Behavior:**
+- Producers add processes to a bounded buffer  
+- Consumers remove and execute processes while ensuring thread-safe access  
 
 ---
 
-### How to Compile and Run Project 2
+### 🗂️ Files for Project 2 (Java)
+- `Simulator.java`: Main driver class that manages producer and consumer threads  
+- `ProcessThread.java`: Thread class representing a process with PID and burst time  
+- `processes.txt`: Optional input file (can be hardcoded)  
+- `report_project2.docx`: Final report for Project 2  
+
+---
+
+### 🛠️ How to Compile and Run Project 2
+Inside the `os_project2/` folder:
+
 ```bash
-make
-./project2
-```
-(Or manually compile with)
-```bash
-gcc main.c producer_consumer.c -lpthread -o project2
-./project2
+javac Simulator.java ProcessThread.java
+java Simulator
 ```
 
 ---
 
-# Sample Outputs
+### 🔍 Sample Outputs
 
-### Project 1: Gantt Chart Example
+**Project 1 – Gantt Chart Example**
 ```
 | P1 | P2 | P3 | P4 |
 0    2    5    7    12
 ```
 
-### Project 2: Producer-Consumer Example
+**Project 2 – Producer-Consumer Example**
 ```
-[Producer] Process 1 added to buffer at slot 0
-[Consumer] Process 1 removed from buffer at slot 0
-[Consumer] Executing process 1 for 4 seconds...
-[Consumer] Process 1 completed
+[Producer] Waiting for buffer space...
+[Producer] Added Process 2
+[Consumer] Retrieved Process 2
+[Process 2] started.
+[Process 2] finished.
 ```
 
 ---
 
-# Folder Structure
+## 📁 Folder Structure
 
 ```
 Operating-systems-project/
@@ -111,12 +109,10 @@ Operating-systems-project/
 │   ├── processes.txt
 │   └── report_project1.pdf
 │
-├── Project2/
-│   ├── main.c
-│   ├── producer_consumer.c
-│   ├── producer_consumer.h
+├── os_project2/
+│   ├── Simulator.java
+│   ├── ProcessThread.java
 │   ├── processes.txt
-│   ├── Makefile
 │   └── report_project2.docx
 │
 └── README.md
@@ -124,10 +120,14 @@ Operating-systems-project/
 
 ---
 
-# Notes
-- Projects written in **C**.
-- Uses **pthreads**, **mutex**, and **semaphores** for Project 2.
-- Organized in modular `.c` and `.h` files.
-- Tested on Linux/macOS terminals and MinGW on Windows.
-- Built with basic GCC compilation.
+## 📌 Notes
+- Project 1 written in **C**
+- Project 2 implemented in **Java**
+- Project 2 uses **Java Semaphores**, **Threads**, and proper synchronization
+- Designed and tested in **VS Code** and standard terminal
+- Modular and organized structure for easy grading and extension
+
+---
+
+
  

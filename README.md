@@ -1,7 +1,7 @@
 # Operating Systems Project - Spring 2025
 
 ## 👥 Team Members
-Miracle Emefiele, Laura Zapata, MiKayla Carney
+Miracle Emefiele and Laura Zapata
 
 ---
 
